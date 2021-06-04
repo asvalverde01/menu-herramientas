@@ -1,34 +1,42 @@
 /******************************************************************************
 Segundo avance del proyecto final
-
 *******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #define PI 3.1417
+#define TAM 100
 
 //Prototipos de funciones ------------------------------------------------------------.
 int menu(void);
 int enteroPositivo(void);
 float calculadoraBasica(float, float, int);
 float calculadoraAreas(float, float, int);
+int calculadoraMatrices(int[2][10][10]);
 
 void convertirTemp(float);
 void convertirMasa(float);
 void convertirDistancia(float);
 int convertirVelocidad(int);
 
+void ingresoDatosLis(char[][TAM], int[], int[], int[], int);
+void impresionDatosLis(char[][TAM], int[], int[], int[], int);
+
 //Función principal -----------------------------------------------------------------.
 int main(void)
 {
     // opm = opción de menú
-    int opm;
-    int op1 = 0, opM = 0, numInt[] = {0, 0, 0, 0, 0};
+    int opm, opLis, cantTarea, status = 0;
+    int op1 = 0, opM = 0, numInt[] = {0, 0, 0, 0, 0}, cantMatriz = 0;
     float numFloat[] = {0, 0, 0}, answ = 1;
+    char nom[TAM][TAM], asig[TAM][TAM];
+    int dia[TAM], mes[TAM], year[TAM];
+    int matriz[2][10][10];
+
     do
     {
         opm = menu(); //Muestra el menú y recibe la opción seleccionada.
-        system("clear");
+        system("cls");
         switch (opm)
         {
         case 1: //------------------------------------------------------------------------------------------.
@@ -36,12 +44,12 @@ int main(void)
             {
                 printf("------------------------------\n");
                 printf("SECCIÓN DE CALCULADORAS\n------------------------------\n");
-                printf("OPCIONES:\n1. OPERACIONES BÁSICAS\n2. ÁREAS\n3. Regresar\n\n");
+                printf("OPCIONES:\n1. OPERACIONES BÁSICAS\n2. ÁREAS\n3. Matrices\n4. Regresar\n\n");
                 op1 = enteroPositivo();
 
                 switch (op1)
                 {
-                case 1:
+                case 1: //Calculadora básica
                     //Solicita 2 números e imprime una operación básica
                     do
                     {
@@ -54,7 +62,7 @@ int main(void)
                             printf("\n1. Sumar\n2. Restar\n3. Multiplicar\n4. Dividir\n");
                             printf("5. Insertar respuesta en número 1\n6. Regresar\n\n");
                             opM = enteroPositivo();
-                            system("clear");
+                            system("cls");
                         } while (opM > 6 || opM < 1);
 
                         if (opM == 5)
@@ -77,7 +85,7 @@ int main(void)
                             scanf("%f", &numFloat[1]);
                             //Envía los 2 números y el operador a la función y recibe la respuesta
                             answ = calculadoraBasica(numFloat[0], numFloat[1], opM);
-                            system("clear");
+                            system("cls");
                             printf("--------------------\n");
                             printf("La respuesta es %.2f \n", answ);
                             printf("--------------------\n");
@@ -86,9 +94,9 @@ int main(void)
                     } while (opM != 6);
                     break;
 
-                case 2:
+                case 2: //Calculadora de Areas
 
-                    system("clear");
+                    system("cls");
                     do
                     {
                         numFloat[0] = 0;
@@ -101,13 +109,13 @@ int main(void)
                         {
                             printf("\nOpción inválida, intente nuevamente\n");
                         }
-                        system("clear");
+                        system("cls");
 
                         if (opM != 5)
                         {
                             //Envía 2 números y la opción elegida
                             answ = calculadoraAreas(numFloat[0], numFloat[1], opM);
-                            system("clear");
+                            system("cls");
                             printf("--------------------\n");
                             printf("El área es %.2f \n", answ);
                             printf("--------------------\n");
@@ -116,19 +124,47 @@ int main(void)
                     } while (opM != 5);
                     break;
 
-                case 3:
-                    system("clear");
+                case 3: //Calculadora de matrices
+                    system("cls");
+                    do
+                    {
+                        numFloat[0] = 0;
+                        printf("1. Ingresar matrices\n2. Regresar\n");
+                        do
+                        {
+                            opM = enteroPositivo(); //Recibe una opción
+                            if (opM > 2 || opM < 1) //En caso de una opción inválida
+                            {
+                                printf("\nOpción inválida, intente nuevamente\n");
+                            }
+                        } while (opM > 2 || opM < 1);
+
+                        if (opM != 2)
+                        {
+                            system("cls");
+                            status = calculadoraMatrices(matriz);
+                        }
+                        if (opM == 2)
+                        {
+                            system("cls");
+                        }
+                    } while (opM != 2);
                     break;
+
+                case 4:
+                    system("cls");
+                    break;
+
                 default:
-                    system("clear");
+                    system("cls");
                     printf("***ERROR***\nLa opción ingresada no se encuentra en el menú\n");
                     break;
                 }
-            } while (op1 != 3);
+            } while (op1 != 4);
             break;
 
         case 2: //------------------------------------------------------------------------------------------.
-            system("clear");
+            system("cls");
             printf("------------------------------\n");
             printf("SECCIÓN DE CONVERTIDORES\n------------------------------\n");
             do
@@ -142,7 +178,7 @@ int main(void)
                 switch (op1)
                 {
                 case 1:
-                    system("clear");
+                    system("cls");
                     do
                     {
                         numFloat[0] = 0;
@@ -160,19 +196,19 @@ int main(void)
                         {
                             printf("Ingrese la temperatura a convertir: ");
                             scanf("%f", &numFloat[0]);
-                            system("clear");
+                            system("cls");
                             //Invoca a la función que imprime las conversiones
                             convertirTemp(numFloat[0]);
                         }
                         if (opM == 2)
                         {
-                            system("clear");
+                            system("cls");
                         }
                     } while (opM != 2);
                     break;
 
                 case 2:
-                    system("clear");
+                    system("cls");
                     do
                     {
                         numFloat[0] = 0;
@@ -190,19 +226,19 @@ int main(void)
                         {
                             printf("Ingrese el valor de la masa: ");
                             scanf("%f", &numFloat[0]);
-                            system("clear");
+                            system("cls");
                             //Invoca a la función que imprime las conversiones
                             convertirMasa(numFloat[0]);
                         }
                         if (opM == 2)
                         {
-                            system("clear");
+                            system("cls");
                         }
                     } while (opM != 2);
                     break;
 
                 case 3:
-                    system("clear");
+                    system("cls");
                     do
                     {
                         numFloat[0] = 0;
@@ -220,21 +256,21 @@ int main(void)
                         {
                             printf("Ingrese el valor de distancia: ");
                             scanf("%f", &numFloat[0]);
-                            system("clear");
+                            system("cls");
                             //Invoca a la función que imprime las conversiones
                             convertirDistancia(numFloat[0]);
                         }
                         if (opM == 2)
                         {
-                            system("clear");
+                            system("cls");
                         }
                     } while (opM != 2);
                     break;
                 case 4:
-                    system("clear");
+                    system("cls");
                     break;
                 default:
-                    system("clear");
+                    system("cls");
                     printf("***ERROR***\nLa opción ingresada no se encuentra en el menú\n");
                     break;
                 }
@@ -242,27 +278,57 @@ int main(void)
             break;
 
         case 3: //------------------------------------------------------------------------------------------.
-            system("clear");
-            printf(" ");
+            system("cls");
+            do
+            {
+                printf("----------------\n");
+                printf("LISTA DE TAREAS\n");
+                printf("----------------\n");
+                printf("1.Asignar una tarea\n2.Revisar las tareas pendientes\n3.Marcar tarea como finalizada\n4.Regresar\n");
+                printf("Escoja una opción:");
+                scanf("%d", &opLis);
+                switch (opLis)
+                {
+                case 1:
+                    system("cls");
+                    printf("Ingrese la cantidad de tareas que desea enlistar: ");
+                    scanf("%d", &cantTarea);
+                    ingresoDatosLis(asig, dia, mes, year, cantTarea);
+                    break;
+
+                case 2:
+                    system("cls");
+                    impresionDatosLis(asig, dia, mes, year, cantTarea);
+                    break;
+
+                case 3:
+                    system("cls");
+                    break;
+
+                default:
+                    system("cls");
+                    break;
+                }
+            } while (opLis <= 0 || opLis > 4);
             break;
 
         case 4: //------------------------------------------------------------------------------------------.
-            system("clear");
+            system("cls");
             printf(" ");
             break;
 
         case 5: //------------------------------------------------------------------------------------------.
-            system("clear");
+            system("cls");
             break;
 
         case 6: //------------------------------------------------------------------------------------------.
-            system("clear");
+            system("cls");
             printf("Terminando el programa...\n");
             return 0;
             break;
 
         default: //------------------------------------------------------------------------------------------.
-            system("clear");
+            system("cls");
             printf("***ERROR***\nLa opción ingresada no se encuentra en el menú\n");
             break;
         }
@@ -274,8 +340,8 @@ int menu(void)
 {
     float nop;
     printf("------------------------------------------------------\n");
-    printf("Del siguiente menú elija una opción\n");
-    printf("1. Calculadoras\n2. Convertidores\n3. \n4.\n5. Borrar la consola\n6. Salir\n");
+    printf("Del siguiente menú elija una opción:\n");
+    printf("1. Calculadoras\n2. Convertidores\n3. Lista de Tareas\n4. -----\n5. Borrar la consola\n6. Salir\n");
     printf("------------------------------------------------------\n");
     printf("Opción(1-6)---> ");
     scanf("%f", &nop);
@@ -343,6 +409,44 @@ float calculadoraAreas(float num1, float num2, int opcion)
     return answ; //Devuelve el valor del área
 }
 
+int calculadoraMatrices(int matriz[2][10][10])
+{
+    int cantFilas[1], cantColumnas[1];
+    printf("Se ingresan 2 matrices a continuación: ");
+    for (int c = 0; c < 2; c++) //Cantidad de matrices
+    {
+        printf("\nIngresando la matriz %d\n", c + 1);
+        printf("Ingrese la cantidad de filas: ");
+        cantFilas[c] = enteroPositivo();
+        printf("Ingrese la cantidad de columnas: ");
+        cantColumnas[c] = enteroPositivo();
+        system("cls");
+        //Ingreso de datos de las 2 matrices
+        for (int i = 0; i < cantFilas[c]; i++) //Filas
+        {
+            for (int j = 0; j < cantColumnas[c]; j++)
+            {
+                printf("Matriz %d -Fila %d, columna %d --> ", i + 1, i + 1, j + 1);
+                scanf("%d", &matriz[c][i][j]);
+            }
+        }
+    }
+    system("cls");
+    //Imprime las 2 matrices
+    for (int cm = 0; cm < 2; cm++)
+    {
+        printf("\nMatríz %d\n", cm + 1);
+        for (int i = 0; i < cantFilas[cm]; i++) //Filas
+        {
+            for (int j = 0; j < cantColumnas[cm]; j++)
+            {
+                printf("%d ", matriz[cm][i][j]);
+            }
+            printf("\n");
+        }
+    }
+    return 0;
+}
 //OPCIÓN 2 -
 void convertirTemp(float temp)
 {
@@ -400,20 +504,56 @@ int convertirVelocidad(int)
 {
     return 0;
 }
+*/
 
 //OPCIÓN 3 -
+void ingresoDatosLis(char asig[][TAM], int dia[], int mes[], int year[], int cantTarea)
+{
+    int cont;
+    for (cont = 0; cont < cantTarea; cont++)
+    {
+        printf("Ingrese la asignación N°%d que desea enlistar: ", cont + 1);
+        getchar();
+        fgets(asig[cont], TAM, stdin);
+        printf("Ingrese la fecha límite para la tarea asignada: \n");
+        do
+        {
+            printf("Dia: ");
+            scanf("%d", &dia[cont]);
+        } while (dia[cont] > 31 || dia[cont] < 1);
+        do
+        {
+            printf("Mes: ");
+            scanf("%d", &mes[cont]);
+        } while (mes[cont] >= 13 || mes[cont] < 1);
+        do
+        {
+            printf("Año: ");
+            scanf("%d", &year[cont]);
+        } while (year[cont] < 2021);
+    }
+    system("cls");
+}
 
+void impresionDatosLis(char asig[][TAM], int dia[], int mes[], int year[], int cantTarea)
+{
+    printf("A continuacón tus tareas pendientes:\n ");
+    for (int cont = 0; cont < cantTarea; cont++)
+    {
+        printf("---------------------------\n");
+        printf(" Tarea N° %d\n", cont + 1);
+        printf("\t\t%s\n", asig[cont]);
+        printf(" La cual vence el %d/%d/%d\n ", dia[cont], mes[cont], year[cont]);
+        printf("---------------------------\n");
+    }
+}
 
 //OPCIÓN 4 -
 
-
 //OPCIÓN 4 -
-
 
 //OPCIÓN 5 -
 
-
-*/
 //Esta función regresa un número positivo
 int enteroPositivo(void)
 {
