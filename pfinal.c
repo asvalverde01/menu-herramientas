@@ -31,7 +31,7 @@ int main(void)
     float numFloat[] = {0, 0, 0}, answ = 1;
     char nom[TAM][TAM], asig[TAM][TAM];
     int dia[TAM], mes[TAM], year[TAM];
-    int matriz[2][10][10];
+    int matriz[3][10][10];
 
     do
     {
@@ -44,7 +44,7 @@ int main(void)
             {
                 printf("------------------------------\n");
                 printf("SECCIÓN DE CALCULADORAS\n------------------------------\n");
-                printf("OPCIONES:\n1. OPERACIONES BÁSICAS\n2. ÁREAS\n3. Matrices\n4. Regresar\n\n");
+                printf("OPCIONES:\n1. OPERACIONES BÁSICAS\n2. ÁREAS\n3. MATRICES\n4. Regresar\n\n");
                 op1 = enteroPositivo();
 
                 switch (op1)
@@ -53,7 +53,6 @@ int main(void)
                     //Solicita 2 números e imprime una operación básica
                     do
                     {
-
                         numFloat[0] = 0;
                         numFloat[1] = 0;
 
@@ -129,7 +128,7 @@ int main(void)
                     do
                     {
                         numFloat[0] = 0;
-                        printf("1. Ingresar matrices\n2. Regresar\n");
+                        printf("1. Ingresar matrices (A) y (B)\n2. Regresar\n");
                         do
                         {
                             opM = enteroPositivo(); //Recibe una opción
@@ -143,6 +142,7 @@ int main(void)
                         {
                             system("cls");
                             status = calculadoraMatrices(matriz);
+                            printf("\n");
                         }
                         if (opM == 2)
                         {
@@ -409,16 +409,16 @@ float calculadoraAreas(float num1, float num2, int opcion)
     return answ; //Devuelve el valor del área
 }
 
-int calculadoraMatrices(int matriz[2][10][10])
+int calculadoraMatrices(int matriz[3][10][10])
 {
-    int cantFilas[1], cantColumnas[1];
-    printf("Se ingresan 2 matrices a continuación: ");
+    int cantFilas[3], cantColumnas[3], opMa = 0;
+    printf("Se ingresan 2 matrices a continuación 1(A) y 2(B): \n");
     for (int c = 0; c < 2; c++) //Cantidad de matrices
     {
         printf("\nIngresando la matriz %d\n", c + 1);
         printf("Ingrese la cantidad de filas: ");
         cantFilas[c] = enteroPositivo();
-        printf("Ingrese la cantidad de columnas: ");
+        printf("Ingrese la cantidad de columnas:  ");
         cantColumnas[c] = enteroPositivo();
         system("cls");
         //Ingreso de datos de las 2 matrices
@@ -426,27 +426,134 @@ int calculadoraMatrices(int matriz[2][10][10])
         {
             for (int j = 0; j < cantColumnas[c]; j++)
             {
-                printf("Matriz %d -Fila %d, columna %d --> ", i + 1, i + 1, j + 1);
+                printf("Matriz %d - fila %d, columna %d --> ", c + 1, i + 1, j + 1);
                 scanf("%d", &matriz[c][i][j]);
+                matriz[2][i][j] = 0; //Crea una matriz C
             }
         }
     }
     system("cls");
-    //Imprime las 2 matrices
-    for (int cm = 0; cm < 2; cm++)
+
+    //Muestra todas las opciones para calcular las matrices registradas
+    do
     {
-        printf("\nMatríz %d\n", cm + 1);
-        for (int i = 0; i < cantFilas[cm]; i++) //Filas
+        //Imprime las 2 matrices
+        for (int cm = 0; cm < 2; cm++)
         {
-            for (int j = 0; j < cantColumnas[cm]; j++)
+            printf("---------------\n");
+            printf("Matríz %d\n", cm + 1);
+            for (int i = 0; i < cantFilas[cm]; i++) //Filas
             {
-                printf("%d ", matriz[cm][i][j]);
+                for (int j = 0; j < cantColumnas[cm]; j++)
+                {
+                    printf("%d ", matriz[cm][i][j]); //Imprime la matriz A y B
+                }
+                printf("\n");
+            }
+        }
+
+        do
+        {
+            printf("-----------------------------\n");
+            printf("\n1. Sumar A + B\n2. Restar A - B\n3. Multiplicar A * B\n-. Insertar\n4. C en A\n5. C en B\n6. Regresar\n");
+            opMa = enteroPositivo();
+        } while (opMa > 6);
+
+        switch (opMa)
+        {
+        case 1: //Suma las matrices
+            system("cls");
+            printf("Matriz 'C' resultado de la suma de las matrices(A+B)\n\n");
+            if (cantFilas[0] == cantFilas[1] && cantColumnas[0] == cantColumnas[1])
+            {
+                cantFilas[2] = cantFilas[0];
+                cantColumnas[2] = cantColumnas[0];
+
+                for (int i = 0; i < cantFilas[0]; i++) //Filas
+                {
+                    for (int j = 0; j < cantColumnas[0]; j++) //Columnas
+                    {
+                        matriz[2][i][j] = matriz[0][i][j] + matriz[1][i][j];
+                        printf("%d ", matriz[2][i][j]);
+                    }
+                    printf("\n");
+                }
+                printf("\n");
+            }
+            else
+            {
+                printf("Las matrices deben tener el mismo tamaño, la misma cantidad de columnas y de filas.");
+            }
+            break;
+
+        case 2: //Resta las matrices
+            system("cls");
+            printf("Matriz 'C' resultado de la resta de las matrices(A-B)\n\n");
+            if (cantFilas[0] == cantFilas[1] && cantColumnas[0] == cantColumnas[1])
+            {
+                cantFilas[2] = cantFilas[0];
+                cantColumnas[2] = cantColumnas[0];
+
+                for (int i = 0; i < cantFilas[0]; i++) //Filas
+                {
+                    for (int j = 0; j < cantColumnas[0]; j++) //Columnas
+                    {
+                        matriz[2][i][j] = matriz[0][i][j] - matriz[1][i][j];
+                        printf("%d ", matriz[2][i][j]);
+                    }
+                    printf("\n");
+                }
+                printf("\n");
+            }
+            else
+            {
+                printf("Las matrices deben tener el mismo tamaño, la misma cantidad de columnas y de filas.");
+            }
+            break;
+
+        case 3: //Multiplica A * B
+            system("cls");
+
+            break;
+
+        case 4: //Insertar C en A
+            system("cls");
+            for (int i = 0; i < cantFilas[2]; i++) //Filas
+            {
+                for (int j = 0; j < cantColumnas[2]; j++) //Columnas
+                {
+                    matriz[0][i][j] = matriz[2][i][j];
+                }
             }
             printf("\n");
+            break;
+
+        case 5: //Insertar C en B
+            system("cls");
+            for (int i = 0; i < cantFilas[2]; i++) //Filas
+            {
+                for (int j = 0; j < cantColumnas[2]; j++) //Columnas
+                {
+                    matriz[1][i][j] = matriz[2][i][j];
+                }
+            }
+            printf("\n");
+            break;
+
+        case 6: //Regresar
+            system("cls");
+            return 0;
+            break;
+
+        default:
+            system("cls");
+            printf("Error, intente nuevamente\n");
+            break;
         }
-    }
+    } while (opMa != 6);
     return 0;
 }
+
 //OPCIÓN 2 -
 void convertirTemp(float temp)
 {
@@ -562,7 +669,7 @@ int enteroPositivo(void)
     int n = 0;
     do
     {
-        printf("Número: ");
+        printf("--> ");
         scanf("%f", &num); //Recibe un número para evaluar
 
         if (num < 1) //En caso de ingresar un número menor que 1
