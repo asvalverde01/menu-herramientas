@@ -1,5 +1,6 @@
 /******************************************************************************
 Segundo avance del proyecto final
+1.0
 *******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,8 +44,8 @@ int main(void)
             do
             {
                 printf("------------------------------\n");
-                printf("SECCIÓN DE CALCULADORAS\n------------------------------\n");
-                printf("OPCIONES:\n1. OPERACIONES BÁSICAS\n2. ÁREAS\n3. MATRICES\n4. Regresar\n\n");
+                printf("---SECCIÓN DE CALCULADORAS---\n------------------------------\n");
+                printf("\nOPCIONES:\n1. OPERACIONES BÁSICAS\n2. ÁREAS\n3. MATRICES\n4. Regresar\n\n");
                 op1 = enteroPositivo();
 
                 switch (op1)
@@ -166,7 +167,7 @@ int main(void)
         case 2: //------------------------------------------------------------------------------------------.
             system("cls");
             printf("------------------------------\n");
-            printf("SECCIÓN DE CONVERTIDORES\n------------------------------\n");
+            printf("SECCIÓN DE CONVERTIDORES\n------------------------------\n\n");
             do
             {
                 printf("OPCIONES:\n1. TEMPERATURA\n2. MASA\n3. DISTANCIA\n4. Regresar\n\n");
@@ -314,14 +315,21 @@ int main(void)
 
         case 4: //------------------------------------------------------------------------------------------.
             system("cls");
-            printf(" ");
+            printf("------------------------------\n");
+            printf("SECCIÓN DE HERRAMIENTAS\n------------------------------\n");
             break;
 
         case 5: //------------------------------------------------------------------------------------------.
             system("cls");
+            printf("------------------------------\n");
+            printf("SECCIÓN DE AYUDA E INFORMACIÓN\n------------------------------\n");
             break;
 
         case 6: //------------------------------------------------------------------------------------------.
+            system("cls");
+            break;
+
+        case 7: //------------------------------------------------------------------------------------------.
             system("cls");
             printf("Terminando el programa...\n");
             return 0;
@@ -332,18 +340,20 @@ int main(void)
             printf("***ERROR***\nLa opción ingresada no se encuentra en el menú\n");
             break;
         }
-    } while (opm != 6);
+    } while (opm != 7);
 }
 
 //Funciones secundarias -----------------------------------------------------------------.
 int menu(void)
 {
     float nop;
-    printf("------------------------------------------------------\n");
-    printf("Del siguiente menú elija una opción:\n");
-    printf("1. Calculadoras\n2. Convertidores\n3. Lista de Tareas\n4. -----\n5. Borrar la consola\n6. Salir\n");
-    printf("------------------------------------------------------\n");
-    printf("Opción(1-6)---> ");
+    printf("------------- STUDENT TOOLS -------------\n");
+    printf("-----------------------------------------\n");
+    printf("---DEL SIGUIENTE MENÚ ELIJA UNA OPCIÓN---\n\n");
+    printf("1. CALCULADORAS\n2. CONVERTIDORES\n3. LISTA DE TAREAS\n4. HERRAMIENTAS\n5. AYUDA / ACERCA DE\n");
+    printf("6. BORRAR LA CONSOLA\n7. SALIR / TERMINAR\n");
+    printf("\n");
+    printf("|---Opción(1-7)---> ");
     scanf("%f", &nop);
     //Previene un error en caso de ingresar un valor decimal
     int op = nop;
