@@ -513,6 +513,31 @@ int calculadoraMatrices(int matriz[3][10][10])
 
         case 3: //Multiplica A * B
             system("cls");
+            int valor = 0;
+            if (cantColumnas[0] == cantFilas[1])
+            {
+                cantFilas[2] = cantFilas[0];
+                cantColumnas[2] = cantColumnas[1];
+                printf("Matriz resultante de %d x %d\n", cantFilas[2], cantColumnas[2]);
+
+                for (int i = 0; i < cantFilas[2]; i++)
+                {
+                    for (int j = 0; j < cantColumnas[2]; j++)
+                    {
+                        matriz[2][i][j] = 0;
+                        for (int k = 0; k < cantColumnas[2]; k++)
+                        {
+                            matriz[2][i][j] += matriz[0][i][k] * matriz[1][k][j];
+                        }
+                        printf("%d ", matriz[2][i][j]);
+                    }
+                    printf("\n");
+                }
+            }
+            else
+            {
+                printf("El número de columnas de la primera matriz debe coincidir con el número de filas de la segunda matriz.");
+            }
 
             break;
 
@@ -523,6 +548,8 @@ int calculadoraMatrices(int matriz[3][10][10])
                 for (int j = 0; j < cantColumnas[2]; j++) //Columnas
                 {
                     matriz[0][i][j] = matriz[2][i][j];
+                    cantFilas[0] = cantFilas[2];
+                    cantColumnas[0] = cantColumnas[2];
                 }
             }
             printf("\n");
@@ -535,6 +562,8 @@ int calculadoraMatrices(int matriz[3][10][10])
                 for (int j = 0; j < cantColumnas[2]; j++) //Columnas
                 {
                     matriz[1][i][j] = matriz[2][i][j];
+                    cantFilas[1] = cantFilas[2];
+                    cantColumnas[1] = cantColumnas[2];
                 }
             }
             printf("\n");
