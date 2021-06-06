@@ -5,6 +5,8 @@ Segundo avance del proyecto final
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <unistd.h>
+
 #define PI 3.1417
 #define TAM 100
 
@@ -18,10 +20,11 @@ int calculadoraMatrices(int[2][10][10]);
 void convertirTemp(float);
 void convertirMasa(float);
 void convertirDistancia(float);
-int convertirVelocidad(int);
 
 void ingresoDatosLis(char[][TAM], int[], int[], int[], int);
 void impresionDatosLis(char[][TAM], int[], int[], int[], int);
+
+void temporizador(int, int, int);
 
 //Función principal -----------------------------------------------------------------.
 int main(void)
@@ -317,6 +320,131 @@ int main(void)
             system("cls");
             printf("------------------------------\n");
             printf("SECCIÓN DE HERRAMIENTAS\n------------------------------\n");
+            do
+            {
+                printf("OPCIONES:\n1. TEMPORIZADOR\n2. ---\n3. ---\n4. Regresar\n\n");
+                op1 = enteroPositivo();
+                if (opM > 4 || opM < 1) //En caso de una opción inválida
+                {
+                    printf("\nOpción inválida, intente nuevamente\n");
+                }
+                switch (op1)
+                {
+                case 1:
+                    system("cls");
+                    do
+                    {
+                        numInt[0] = 0, numInt[1] = 0, numInt[2] = 0;
+                        numFloat[0] = 0;
+                        printf("1. Iniciar un temporizador \n2. Regresar\n");
+                        do
+                        {
+                            opM = enteroPositivo(); //Recibe una opción
+                            if (opM > 2 || opM < 1) //En caso de una opción inválida
+                            {
+                                printf("\nOpción inválida, intente nuevamente\n");
+                            }
+                        } while (opM > 2 || opM < 1);
+
+                        if (opM != 2)
+                        {
+                            printf("A continuación ingrese\n\n");
+                            do //Ingreso de horas
+                            {
+                                printf("Horas (0 - 24): ");
+                                scanf("%d", &numInt[0]);
+                            } while (numInt[0] < 0 || numInt[0] > 24);
+                            do //Ingreso de minutos
+                            {
+                                printf("Minutos (0 - 60): ");
+                                scanf("%d", &numInt[1]);
+                            } while (numInt[1] < 0 || numInt[1] > 60);
+                            do //Ingreso de segundos
+                            {
+                                printf("Segundos (0 - 60): ");
+                                scanf("%d", &numInt[2]);
+                            } while (numInt[2] < 0 || numInt[2] > 60);
+                            system("cls");
+
+                            //Invoca a la función que inicia el temporizador
+                            printf("Iniciado un temporizador %d/%d/%d\n", numInt[0], numInt[1], numInt[2]);
+                            temporizador(numInt[0], numInt[1], numInt[2]);
+                        }
+                        if (opM == 2)
+                        {
+                            system("cls");
+                        }
+                    } while (opM != 2);
+                    break;
+
+                case 2:
+                    system("cls");
+                    do
+                    {
+                        numFloat[0] = 0;
+                        printf("1. Ingresar un valor\n2. Regresar\n");
+                        do
+                        {
+                            opM = enteroPositivo(); //Recibe una opción
+                            if (opM > 2 || opM < 1) //En caso de una opción inválida
+                            {
+                                printf("\nOpción inválida, intente nuevamente\n");
+                            }
+                        } while (opM > 2 || opM < 1);
+
+                        if (opM != 2)
+                        {
+                            printf("Ingrese el valor de ");
+                            scanf("%f", &numFloat[0]);
+                            system("cls");
+                            //Invoca a la función que imprime las conversiones
+                            convertirMasa(numFloat[0]);
+                        }
+                        if (opM == 2)
+                        {
+                            system("cls");
+                        }
+                    } while (opM != 2);
+                    break;
+
+                case 3:
+                    system("cls");
+                    do
+                    {
+                        numFloat[0] = 0;
+                        printf("1. Ingresar un valor\n2. Regresar\n");
+                        do
+                        {
+                            opM = enteroPositivo(); //Recibe una opción
+                            if (opM > 2 || opM < 1) //En caso de una opción inválida
+                            {
+                                printf("\nOpción inválida, intente nuevamente\n");
+                            }
+                        } while (opM > 2 || opM < 1);
+
+                        if (opM != 2)
+                        {
+                            printf("Ingrese el valor de distancia: ");
+                            scanf("%f", &numFloat[0]);
+                            system("cls");
+                            //Invoca a la función que imprime las conversiones
+                            convertirDistancia(numFloat[0]);
+                        }
+                        if (opM == 2)
+                        {
+                            system("cls");
+                        }
+                    } while (opM != 2);
+                    break;
+                case 4:
+                    system("cls");
+                    break;
+                default:
+                    system("cls");
+                    printf("***ERROR***\nLa opción ingresada no se encuentra en el menú\n");
+                    break;
+                }
+            } while (op1 != 4);
             break;
 
         case 5: //------------------------------------------------------------------------------------------.
@@ -645,12 +773,6 @@ void convertirDistancia(float distancia)
     distanciaConvertida = distancia / 1609;
     printf("%.1f kilómetro a milla ---> %.3f\n\n", distancia, distanciaConvertida);
 }
-/*
-int convertirVelocidad(int)
-{
-    return 0;
-}
-*/
 
 //OPCIÓN 3 -
 void ingresoDatosLis(char asig[][TAM], int dia[], int mes[], int year[], int cantTarea)
@@ -695,6 +817,33 @@ void impresionDatosLis(char asig[][TAM], int dia[], int mes[], int year[], int c
 }
 
 //OPCIÓN 4 -
+void temporizador(int horas, int minutos, int segundos)
+{
+    while (horas > 0 || minutos > 0 || segundos > 0)
+    {
+
+        if (segundos > 0)
+        {
+            segundos--;
+        }
+        if (segundos == 0 && minutos > 0)
+        {
+            minutos--;
+            segundos = 59;
+        }
+        if (minutos == 0 && horas > 0)
+        {
+            horas--;
+            minutos = 59;
+        }
+        printf("TIEMPO RESTANTE\n--------------\n");
+        printf("  %d:%d:%d  \n", horas, minutos, segundos);
+        printf("----------------\n");
+        sleep(1);
+        system("cls");
+    }
+    printf("\n======Temporizador finalizado======\n");
+}
 
 //OPCIÓN 4 -
 
