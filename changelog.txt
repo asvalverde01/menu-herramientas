@@ -1,8 +1,16 @@
 Cambios
 5 de Junio
-- Se agregó la calculadora de matrices en las calculadoras
+- Se agregó la calculadora de matrices en las calculadoras.
 
 6 de Junio 
-- Se ha agregado un temporizador a la seccion de herramientas
+- Se ha agregado un temporizador a la seccion de herramientas.
 - Se ha creado una función "borrarConsola" que permite compatibilidad en otras plataformas
-diferentes a Windows
+diferentes a Windows.
+- Se ha agregado una nueva seccion de contraseñas e incorporado la función para generar contraseñas
+alealtorias.
+
+
+TODO
+- Toma de notas
+- Administrator de contraseñas
+- Login del sistema

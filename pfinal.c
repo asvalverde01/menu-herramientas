@@ -1,6 +1,9 @@
+//Inclusión de librerías ----------------------------------------------------------.
+int menu(void);
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 //Verifica el sistema operativo para incluir la libreria
 #ifdef _WIN32
 #include <Windows.h>
@@ -8,6 +11,8 @@
 #include <unistd.h>
 #endif
 
+//Definición de valores ------------------------------------------------------------.
+int menu(void);
 #define PI 3.1417
 #define TAM 100
 
@@ -29,17 +34,20 @@ void impresionDatosLis(char[][TAM], int[], int[], int[], int);
 
 void temporizador(int, int, int);
 
+void genContra(int, char[21]);
+
 //Función principal -----------------------------------------------------------------.
 int main(void)
 {
-    // opm = opción de menú
-    int opm, opLis, cantTarea, status = 0;
+
+    //Inicializacion de variables ------------------------------
+    int opm, opLis, cantTarea, status = 0; // opm = opción de menú
     int op1 = 0, opM = 0, numInt[] = {0, 0, 0, 0, 0}, cantMatriz = 0;
     float numFloat[] = {0, 0, 0}, answ = 1;
     char nom[TAM][TAM], asig[TAM][TAM];
-    int dia[TAM], mes[TAM], year[TAM];
-    int matriz[3][10][10];
+    int dia[TAM], mes[TAM], year[TAM], matriz[3][10][10];
 
+    //Loop principal
     do
     {
         opm = menu(); //Muestra el menú y recibe la opción seleccionada.
@@ -47,10 +55,11 @@ int main(void)
         switch (opm)
         {
         case 1: //------------------------------------------------------------------------------------------.
+            borrarConsola();
+            printf("------------------------------\n");
+            printf("---SECCIÓN DE CALCULADORAS---\n------------------------------\n");
             do
             {
-                printf("------------------------------\n");
-                printf("---SECCIÓN DE CALCULADORAS---\n------------------------------\n");
                 printf("\nOPCIONES:\n1. OPERACIONES BÁSICAS\n2. ÁREAS\n3. MATRICES\n4. Regresar\n\n");
                 op1 = enteroPositivo();
 
@@ -286,6 +295,8 @@ int main(void)
 
         case 3: //------------------------------------------------------------------------------------------.
             borrarConsola();
+            printf("------------------------------\n");
+            printf("SECCIÓN DE TAREAS\n------------------------------\n\n");
             do
             {
                 printf("----------------\n");
@@ -333,12 +344,12 @@ int main(void)
                 }
                 switch (op1)
                 {
-                case 1:
+                case 1: //Inicia un temporizador
                     borrarConsola();
                     do
                     {
+                        //se registran horas, minutos, segundos
                         numInt[0] = 0, numInt[1] = 0, numInt[2] = 0;
-                        numFloat[0] = 0;
                         printf("1. Iniciar un temporizador \n2. Regresar\n");
                         do
                         {
@@ -349,6 +360,7 @@ int main(void)
                             }
                         } while (opM > 2 || opM < 1);
 
+                        // Solicita al usuario horas, minutos y segundos dentro de un rango permitido
                         if (opM != 2)
                         {
                             printf("A continuación ingrese\n\n");
@@ -357,11 +369,13 @@ int main(void)
                                 printf("Horas (0 - 24): ");
                                 scanf("%d", &numInt[0]);
                             } while (numInt[0] < 0 || numInt[0] > 24);
+
                             do //Ingreso de minutos
                             {
                                 printf("Minutos (0 - 60): ");
                                 scanf("%d", &numInt[1]);
                             } while (numInt[1] < 0 || numInt[1] > 60);
+
                             do //Ingreso de segundos
                             {
                                 printf("Segundos (0 - 60): ");
@@ -369,7 +383,7 @@ int main(void)
                             } while (numInt[2] < 0 || numInt[2] > 60);
                             borrarConsola();
 
-                            //Invoca a la función que inicia el temporizador
+                            //Invoca a la función que inicia el temporizador y envía valores de tiempo
                             printf("Iniciado un temporizador %d/%d/%d\n", numInt[0], numInt[1], numInt[2]);
                             temporizador(numInt[0], numInt[1], numInt[2]);
                         }
@@ -400,8 +414,7 @@ int main(void)
                             printf("Ingrese el valor de ");
                             scanf("%f", &numFloat[0]);
                             borrarConsola();
-                            //Invoca a la función que imprime las conversiones
-                            convertirMasa(numFloat[0]);
+                            //TODO
                         }
                         if (opM == 2)
                         {
@@ -427,11 +440,11 @@ int main(void)
 
                         if (opM != 2)
                         {
-                            printf("Ingrese el valor de distancia: ");
+                            printf("Ingrese el valor ");
                             scanf("%f", &numFloat[0]);
                             borrarConsola();
-                            //Invoca a la función que imprime las conversiones
-                            convertirDistancia(numFloat[0]);
+                            //Invoca a la función que
+                            //TODO
                         }
                         if (opM == 2)
                         {
@@ -453,14 +466,142 @@ int main(void)
         case 5: //------------------------------------------------------------------------------------------.
             borrarConsola();
             printf("------------------------------\n");
-            printf("SECCIÓN DE AYUDA E INFORMACIÓN\n------------------------------\n");
+            printf("ADMINISTRADOR DE CONTRASEÑAS\n------------------------------\n");
+            do
+            {
+                printf("OPCIONES:\n1. GENERAR CONTRASEÑA\n2. GUARDAR\n3. MOSTRAR\n4. Regresar\n\n");
+                op1 = enteroPositivo();
+                if (opM > 4 || opM < 1) //En caso de una opción inválida
+                {
+                    printf("\nOpción inválida, intente nuevamente\n");
+                }
+                switch (op1)
+                {
+                case 1: //Generador de contraseñas
+                    borrarConsola();
+                    do
+                    {
+                        char contra[15];
+                        printf("1. Generar una nueva contraseña \n2. Regresar\n");
+                        do
+                        {
+                            opM = enteroPositivo(); //Recibe una opción
+                            if (opM > 2 || opM < 1) //En caso de una opción inválida
+                            {
+                                printf("\nOpción inválida, intente nuevamente\n");
+                            }
+                        } while (opM > 2 || opM < 1);
+
+                        if (opM != 2)
+                        {
+                            borrarConsola();
+                            //Invoca a la función que genera una contraseña
+                            do
+                            {
+                                printf("Ingrese la langitud para la contraseña\n");
+                                numInt[0] = enteroPositivo();
+
+                                if (numInt[0] > 20)
+                                {
+                                    borrarConsola();
+                                    printf("El límite es 20\n\n");
+                                }
+                            } while (numInt[0] > 20);
+
+                            //Se invoca a la función enviando el arreglo de la contraseña y la longitud
+                            genContra(numInt[0], contra);
+                            borrarConsola();
+                            //Imprime la contraseña generada por la función
+                            printf("Contraseña generada:\n");
+                            printf("\n%s\n\n", contra);
+                        }
+                        if (opM == 2)
+                        {
+                            borrarConsola();
+                        }
+                    } while (opM != 2);
+                    break;
+
+                case 2:
+                    borrarConsola();
+                    do
+                    {
+                        numFloat[0] = 0;
+                        printf("1. Ingresar un valor\n2. Regresar\n");
+                        do
+                        {
+                            opM = enteroPositivo(); //Recibe una opción
+                            if (opM > 2 || opM < 1) //En caso de una opción inválida
+                            {
+                                printf("\nOpción inválida, intente nuevamente\n");
+                            }
+                        } while (opM > 2 || opM < 1);
+
+                        if (opM != 2)
+                        {
+                            printf("Ingrese el valor de ");
+                            scanf("%f", &numFloat[0]);
+                            borrarConsola();
+                            //TODO
+                        }
+                        if (opM == 2)
+                        {
+                            borrarConsola();
+                        }
+                    } while (opM != 2);
+                    break;
+
+                case 3:
+                    borrarConsola();
+                    do
+                    {
+                        numFloat[0] = 0;
+                        printf("1. Ingresar un valor\n2. Regresar\n");
+                        do
+                        {
+                            opM = enteroPositivo(); //Recibe una opción
+                            if (opM > 2 || opM < 1) //En caso de una opción inválida
+                            {
+                                printf("\nOpción inválida, intente nuevamente\n");
+                            }
+                        } while (opM > 2 || opM < 1);
+
+                        if (opM != 2)
+                        {
+                            printf("Ingrese el valor ");
+                            scanf("%f", &numFloat[0]);
+                            borrarConsola();
+                            //Invoca a la función que
+                            //TODO
+                        }
+                        if (opM == 2)
+                        {
+                            borrarConsola();
+                        }
+                    } while (opM != 2);
+                    break;
+                case 4:
+                    borrarConsola();
+                    break;
+                default:
+                    borrarConsola();
+                    printf("***ERROR***\nLa opción ingresada no se encuentra en el menú\n");
+                    break;
+                }
+            } while (op1 != 4);
             break;
 
         case 6: //------------------------------------------------------------------------------------------.
             borrarConsola();
+            printf("------------------------------\n");
+            printf("SECCIÓN DE AYUDA E INFORMACIÓN\n------------------------------\n");
             break;
 
-        case 7: //------------------------------------------------------------------------------------------.
+        case 7:              //------------------------------------------------------------------------------------------.
+            borrarConsola(); //Borra la consola
+            break;
+
+        case 8: //------------------------------------------------------------------------------------------.
             borrarConsola();
             printf("Terminando el programa...\n");
             return 0;
@@ -471,7 +612,7 @@ int main(void)
             printf("***ERROR***\nLa opción ingresada no se encuentra en el menú\n");
             break;
         }
-    } while (opm != 7);
+    } while (opm != 8);
 }
 
 //Funciones secundarias -----------------------------------------------------------------.
@@ -481,10 +622,10 @@ int menu(void)
     printf("------------- STUDENT TOOLS -------------\n");
     printf("-----------------------------------------\n");
     printf("---DEL SIGUIENTE MENÚ ELIJA UNA OPCIÓN---\n\n");
-    printf("1. CALCULADORAS\n2. CONVERTIDORES\n3. LISTA DE TAREAS\n4. HERRAMIENTAS\n5. AYUDA / ACERCA DE\n");
-    printf("6. BORRAR LA CONSOLA\n7. SALIR / TERMINAR\n");
+    printf("1. CALCULADORAS\n2. CONVERTIDORES\n3. LISTA DE TAREAS\n4. HERRAMIENTAS\n5. CONTRASEÑAS\n");
+    printf("6. AYUDA / ACERCA DE\n7. BORRAR LA CONSOLA\n8. SALIR / TERMINAR\n");
     printf("\n");
-    printf("|---Opción(1-7)---> ");
+    printf("|---Opción(1-8)---> ");
     scanf("%f", &nop);
     //Previene un error en caso de ingresar un valor decimal
     int op = nop;
@@ -853,9 +994,43 @@ void temporizador(int horas, int minutos, int segundos)
     printf("\n======Temporizador finalizado======\n");
 }
 
-//OPCIÓN 4 -
-
 //OPCIÓN 5 -
+void genContra(int longitud, char contra[21])
+{
+    int rnd = 0;
+    srand((unsigned int)(time(NULL)));
+    //Se definen simbolos
+    char numeros[] = "1234567890";
+    char letras[] = "abcdefghijklmnoqprstuvwyzx";
+    char LETRAS[] = "ABCDEFGHIJKLMNOQPRSTUYWVZX";
+    char symbolos[] = "!@#$%^&*(){}[]:<>?,./";
+
+    rnd = rand() % 4;
+    for (int i = 0; i < longitud; i++)
+    {
+        if (rnd == 1)
+        {
+            contra[i] = numeros[rand() % 10];
+            rnd = rand() % 4;
+        }
+        else if (rnd == 2)
+        {
+            contra[i] = symbolos[rand() % 26];
+            rnd = rand() % 4;
+        }
+        else if (rnd == 3)
+        {
+            contra[i] = LETRAS[rand() % 26];
+            rnd = rand() % 4;
+        }
+        else
+        {
+            contra[i] = letras[rand() % 21];
+            rnd = rand() % 4;
+        }
+    }
+}
+//OPCIÓN 6 -
 
 //Esta función regresa un número positivo
 int enteroPositivo(void)
