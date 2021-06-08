@@ -33,6 +33,7 @@ void ingresoDatosLis(char[][TAM], int[], int[], int[], int);
 void impresionDatosLis(char[][TAM], int[], int[], int[], int);
 
 void temporizador(int, int, int);
+int crearNota(char[15]);
 
 void genContra(int, char[21]);
 
@@ -336,7 +337,7 @@ int main(void)
             printf("SECCIÓN DE HERRAMIENTAS\n------------------------------\n");
             do
             {
-                printf("OPCIONES:\n1. TEMPORIZADOR\n2. ---\n3. ---\n4. Regresar\n\n");
+                printf("OPCIONES:\n1. TEMPORIZADOR\n2. NOTEPAD\n3. ---\n4. Regresar\n\n");
                 op1 = enteroPositivo();
                 if (opM > 4 || opM < 1) //En caso de una opción inválida
                 {
@@ -394,12 +395,13 @@ int main(void)
                     } while (opM != 2);
                     break;
 
-                case 2:
+                case 2: //Crea un documento de texto para tomar apuntes
                     borrarConsola();
                     do
                     {
+                        char nombre[15];
                         numFloat[0] = 0;
-                        printf("1. Ingresar un valor\n2. Regresar\n");
+                        printf("1. Nuevo documento \n2. Regresar\n");
                         do
                         {
                             opM = enteroPositivo(); //Recibe una opción
@@ -411,9 +413,12 @@ int main(void)
 
                         if (opM != 2)
                         {
-                            printf("Ingrese el valor de ");
-                            scanf("%f", &numFloat[0]);
+                            printf("Ingrese un nombre para el documento formato: nombre.txt\n");
+                            printf("--> ");
+                            scanf("%s", nombre);
                             borrarConsola();
+                            //Invoca a la función que crea una documento .txt con el nombre ingresado
+                            crearNota(nombre);
                             //TODO
                         }
                         if (opM == 2)
@@ -987,11 +992,32 @@ void temporizador(int horas, int minutos, int segundos)
 #ifdef _WIN32
         Sleep(1000); //En caso de usar Windows
 #else
-        usleep(1000000); //En caso de usar otro sistema operativo
+        sleep(1);    //En caso de usar otro sistema operativo
 #endif
         borrarConsola();
     }
     printf("\n======Temporizador finalizado======\n");
+}
+
+int crearNota(char nombre[15])
+{
+    printf("Creando un documento de texto con nombre: %s \n", nombre);
+    //Crea un archivo con el parametro recibido
+    FILE *file = fopen(nombre, "a");
+    //En caso de error
+    if (file == NULL)
+    {
+        //Imprime el error que se ha generado
+        perror("Error al crear el documento: ");
+        return 1;
+    }
+    else
+    {
+        printf("Documento creado bajo el nombre %s\n", nombre);
+        //Cierra el archivo que se ha creado
+        fclose(file);
+        return 0;
+    }
 }
 
 //OPCIÓN 5 -
@@ -1059,6 +1085,6 @@ void borrarConsola(void)
 #ifdef _WIN32
     system("cls"); //En caso de usar Windows
 #else
-    system("clear");     //En caso de usar otro sistema operativo
+    system("clear"); //En caso de usar otro sistema operativo
 #endif
 }
