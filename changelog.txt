@@ -9,8 +9,10 @@ diferentes a Windows.
 - Se ha agregado una nueva seccion de contraseñas e incorporado la función para generar contraseñas
 alealtorias.
 
+9 de Junio
+- Se agregó la función que permite tomas una nota rápida
 
 TODO
-- Toma de notas
+
 - Administrator de contraseñas
 - Login del sistema

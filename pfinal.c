@@ -1,7 +1,7 @@
 //Inclusión de librerías ----------------------------------------------------------.
-int menu(void);
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include <time.h>
 //Verifica el sistema operativo para incluir la libreria
@@ -33,7 +33,7 @@ void ingresoDatosLis(char[][TAM], int[], int[], int[], int);
 void impresionDatosLis(char[][TAM], int[], int[], int[], int);
 
 void temporizador(int, int, int);
-int crearNota(char[15]);
+int modificarArchivo(char[15]);
 
 void genContra(int, char[21]);
 
@@ -337,7 +337,7 @@ int main(void)
             printf("SECCIÓN DE HERRAMIENTAS\n------------------------------\n");
             do
             {
-                printf("OPCIONES:\n1. TEMPORIZADOR\n2. NOTEPAD\n3. ---\n4. Regresar\n\n");
+                printf("OPCIONES:\n1. TEMPORIZADOR\n2. NOTA RÁPIDA\n3. ---\n4. Regresar\n\n");
                 op1 = enteroPositivo();
                 if (opM > 4 || opM < 1) //En caso de una opción inválida
                 {
@@ -395,13 +395,13 @@ int main(void)
                     } while (opM != 2);
                     break;
 
-                case 2: //Crea un documento de texto para tomar apuntes
+                case 2: //Crea un documento de texto para tomar una nota rápida
                     borrarConsola();
                     do
                     {
                         char nombre[15];
                         numFloat[0] = 0;
-                        printf("1. Nuevo documento \n2. Regresar\n");
+                        printf("1. Escribir nota / texto \n2. Regresar\n");
                         do
                         {
                             opM = enteroPositivo(); //Recibe una opción
@@ -413,12 +413,14 @@ int main(void)
 
                         if (opM != 2)
                         {
-                            printf("Ingrese un nombre para el documento formato: nombre.txt\n");
+                            borrarConsola();
+                            printf("Que archivo de texto desea modificar? formato: nombre.txt\n");
+                            printf("Si el arcchivo no se encuentra se creará uno nuevo\n");
                             printf("--> ");
                             scanf("%s", nombre);
                             borrarConsola();
                             //Invoca a la función que crea una documento .txt con el nombre ingresado
-                            crearNota(nombre);
+                            modificarArchivo(nombre);
                             //TODO
                         }
                         if (opM == 2)
@@ -999,21 +1001,29 @@ void temporizador(int horas, int minutos, int segundos)
     printf("\n======Temporizador finalizado======\n");
 }
 
-int crearNota(char nombre[15])
+int modificarArchivo(char nombre[15])
 {
-    printf("Creando un documento de texto con nombre: %s \n", nombre);
-    //Crea un archivo con el parametro recibido
+    char texto[1000]; //Arreglo donde se almacena el texto
+
+    //Crea / abre un archivo con el parametro recibido
     FILE *file = fopen(nombre, "a");
     //En caso de error
     if (file == NULL)
     {
         //Imprime el error que se ha generado
-        perror("Error al crear el documento: ");
-        return 1;
+        perror("Error al crear el documento: \n");
+        return 1; //Termina la función
     }
     else
     {
-        printf("Documento creado bajo el nombre %s\n", nombre);
+        printf("Modificando el archivo %s \n", nombre);
+        printf("A continuación puede escribir en el archivo que se ha abierto\n");
+        getchar();
+        printf("Texto: ");
+        fgets(texto, sizeof(texto), stdin);
+        fprintf(file, "%s\n", texto);
+
+        printf("Archivo modificado con éxito\n");
         //Cierra el archivo que se ha creado
         fclose(file);
         return 0;
