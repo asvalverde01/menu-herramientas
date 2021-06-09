@@ -10,7 +10,8 @@ diferentes a Windows.
 alealtorias.
 
 9 de Junio
-- Se agregó la función que permite tomas una nota rápida
+- Se agregó la función que permite tomar una nota rápida
+- Se agregó la función que permite imprimir la informacion de un archivo
 
 TODO
 

@@ -4,15 +4,14 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-//Verifica el sistema operativo para incluir la libreria
+//Verifica el sistema operativo para incluir la libreria adecuada
 #ifdef _WIN32
 #include <Windows.h>
 #else
 #include <unistd.h>
 #endif
 
-//Definición de valores ------------------------------------------------------------.
-int menu(void);
+//Definición de constantes------------------------------------------------------------.
 #define PI 3.1417
 #define TAM 100
 
@@ -34,10 +33,11 @@ void impresionDatosLis(char[][TAM], int[], int[], int[], int);
 
 void temporizador(int, int, int);
 int modificarArchivo(char[15]);
+int leerArchivo(char[15]);
 
 void genContra(int, char[21]);
 
-//Función principal -----------------------------------------------------------------.
+//FUNCIÓN PRINCIPAL -----------------------------------------------------------------.
 int main(void)
 {
 
@@ -337,7 +337,7 @@ int main(void)
             printf("SECCIÓN DE HERRAMIENTAS\n------------------------------\n");
             do
             {
-                printf("OPCIONES:\n1. TEMPORIZADOR\n2. NOTA RÁPIDA\n3. ---\n4. Regresar\n\n");
+                printf("OPCIONES:\n1. TEMPORIZADOR\n2. NOTA RÁPIDA\n3. LEER ARCHIVO\n4. Regresar\n\n");
                 op1 = enteroPositivo();
                 if (opM > 4 || opM < 1) //En caso de una opción inválida
                 {
@@ -430,12 +430,13 @@ int main(void)
                     } while (opM != 2);
                     break;
 
-                case 3:
+                case 3: //Muestra el contenido de una archivo
                     borrarConsola();
                     do
                     {
+                        char nombre[15];
                         numFloat[0] = 0;
-                        printf("1. Ingresar un valor\n2. Regresar\n");
+                        printf("1. Ver el contenido de un archivo\n2. Regresar\n");
                         do
                         {
                             opM = enteroPositivo(); //Recibe una opción
@@ -447,10 +448,13 @@ int main(void)
 
                         if (opM != 2)
                         {
-                            printf("Ingrese el valor ");
-                            scanf("%f", &numFloat[0]);
                             borrarConsola();
-                            //Invoca a la función que
+                            printf("Que archivo de texto desea abrir? formato: nombre.txt\n");
+                            printf("--> ");
+                            scanf("%s", nombre);
+                            borrarConsola();
+                            //Invoca a la función que abre un documento .txt con el nombre ingresado
+                            leerArchivo(nombre);
                             //TODO
                         }
                         if (opM == 2)
@@ -458,13 +462,6 @@ int main(void)
                             borrarConsola();
                         }
                     } while (opM != 2);
-                    break;
-                case 4:
-                    borrarConsola();
-                    break;
-                default:
-                    borrarConsola();
-                    printf("***ERROR***\nLa opción ingresada no se encuentra en el menú\n");
                     break;
                 }
             } while (op1 != 4);
@@ -622,7 +619,7 @@ int main(void)
     } while (opm != 8);
 }
 
-//Funciones secundarias -----------------------------------------------------------------.
+//FUNCIONES SECUNDARIAS -------------------------------------------------------------.
 int menu(void)
 {
     float nop;
@@ -640,7 +637,7 @@ int menu(void)
     return op;
 }
 
-//OPCIÓN 1 -
+//OPCIÓN 1 - CALCULADORAS
 float calculadoraBasica(float num1, float num2, int operador)
 {
     if (operador == 1)
@@ -872,7 +869,7 @@ int calculadoraMatrices(int matriz[3][10][10])
     return 0;
 }
 
-//OPCIÓN 2 -
+//OPCIÓN 2 - CONVERTIDORES
 void convertirTemp(float temp)
 {
     //Usando fórmulas de conversión se realiza los cáclulos
@@ -925,7 +922,7 @@ void convertirDistancia(float distancia)
     printf("%.1f kilómetro a milla ---> %.3f\n\n", distancia, distanciaConvertida);
 }
 
-//OPCIÓN 3 -
+//OPCIÓN 3 - LISTA DE TAREAS
 void ingresoDatosLis(char asig[][TAM], int dia[], int mes[], int year[], int cantTarea)
 {
     int cont;
@@ -967,7 +964,7 @@ void impresionDatosLis(char asig[][TAM], int dia[], int mes[], int year[], int c
     }
 }
 
-//OPCIÓN 4 -
+//OPCIÓN 4 - HERRAMIENTAS
 void temporizador(int horas, int minutos, int segundos)
 {
 
@@ -1011,18 +1008,18 @@ int modificarArchivo(char nombre[15])
     if (file == NULL)
     {
         //Imprime el error que se ha generado
-        perror("Error al crear el documento: \n");
+        perror("Error al modificar el documento: ");
         return 1; //Termina la función
     }
     else
     {
         printf("Modificando el archivo %s \n", nombre);
-        printf("A continuación puede escribir en el archivo que se ha abierto\n");
+        printf("\nA continuación puede escribir en el archivo que se ha abierto\n");
         getchar();
         printf("Texto: ");
         fgets(texto, sizeof(texto), stdin);
         fprintf(file, "%s\n", texto);
-
+        borrarConsola();
         printf("Archivo modificado con éxito\n");
         //Cierra el archivo que se ha creado
         fclose(file);
@@ -1030,7 +1027,33 @@ int modificarArchivo(char nombre[15])
     }
 }
 
-//OPCIÓN 5 -
+int leerArchivo(char nombre[15])
+{
+    //Lee un archivo con el parametro recibido
+    FILE *file = fopen(nombre, "r");
+    //En caso de error
+    if (file == NULL)
+    {
+        //Imprime el error que se ha generado
+        perror("Error al abrir el documento: ");
+        return 1; //Termina la función
+    }
+    else
+    {
+        char ch;
+        borrarConsola();
+        printf("Archivo encontrado, mostrando contenido a continuación:\n\n");
+        //Lee e imprime el contenido hasta encontrar el final del texto
+        while ((ch = fgetc(file)) != EOF)
+        {
+            printf("%c", ch); //Imprime caracte por caracter
+        }
+        printf("\n");
+    }
+    return 0;
+}
+
+//OPCIÓN 5 - ADMINISTRADOR DE CONTRASEÑAS
 void genContra(int longitud, char contra[21])
 {
     int rnd = 0;
@@ -1066,6 +1089,7 @@ void genContra(int longitud, char contra[21])
         }
     }
 }
+
 //OPCIÓN 6 -
 
 //Esta función regresa un número positivo
@@ -1089,7 +1113,7 @@ int enteroPositivo(void)
     n = num;          //Convierte el número flotante en entero
     return n;
 }
-
+//Esta función borra el contenido de la consola
 void borrarConsola(void)
 {
 #ifdef _WIN32
