@@ -16,4 +16,4 @@ alealtorias.
 TODO
 
 - Administrator de contraseñas
-- Login del sistema
+- Encriptar contraseñas

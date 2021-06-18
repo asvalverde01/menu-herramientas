@@ -1,0 +1,3 @@
+Registrar contraseñas
+-Solicitar la clave para cifrar
+-Ingresar la clave y el sitio
