@@ -30,8 +30,8 @@ void convertirTemp(float);
 void convertirMasa(float);
 void convertirDistancia(float);
 
-void ingresoDatosLis(char[][TAM], int[], int[], int[], int);
-void impresionDatosLis(char[][TAM], int[], int[], int[], int);
+void ingresoDatosLis(char[][TAM], int[], int[], int[], int[]);
+void impresionDatosLis(char[][TAM], int[], int[], int[], int[]);
 
 void temporizador(int, int, int);
 int modificarArchivo(char[15]);
@@ -46,11 +46,11 @@ int main(void)
 {
 
     //Inicializacion de variables ------------------------------
-    int opm, opLis, cantTarea, status = 0; // opm = opción de menú
+    int opm, opLis, cont1, status = 0; // opm = opción de menú
     int op1 = 0, opM = 0, numInt[] = {0, 0, 0, 0, 0}, cantMatriz = 0;
     float numFloat[] = {0, 0, 0}, answ = 1;
     char nom[TAM][TAM], asig[TAM][TAM];
-    int dia[TAM], mes[TAM], year[TAM], matriz[3][10][10];
+    int dia[TAM], mes[TAM], year[TAM], Lis[TAM], matriz[3][10][10];
 
     //Loop principal
     do
@@ -314,14 +314,12 @@ int main(void)
                 {
                 case 1:
                     borrarConsola();
-                    printf("Ingrese la cantidad de tareas que desea enlistar: ");
-                    scanf("%d", &cantTarea);
-                    ingresoDatosLis(asig, dia, mes, year, cantTarea);
+                    ingresoDatosLis(asig, dia, mes, year, Lis);
                     break;
 
                 case 2:
                     borrarConsola();
-                    impresionDatosLis(asig, dia, mes, year, cantTarea);
+                    impresionDatosLis(asig, dia, mes, year, Lis);
                     break;
 
                 case 3:
@@ -935,15 +933,18 @@ void convertirDistancia(float distancia)
 }
 
 //OPCIÓN 3 - LISTA DE TAREAS
-void ingresoDatosLis(char asig[][TAM], int dia[], int mes[], int year[], int cantTarea)
+void ingresoDatosLis(char asig[][TAM], int dia[], int mes[], int year[], int Lis[])
 {
-    int cont;
-    for (cont = 0; cont < cantTarea; cont++)
+    int cont = 0;
+    do
     {
+        borrarConsola();
         printf("Ingrese la asignación N°%d que desea enlistar: ", cont + 1);
         getchar();
         fgets(asig[cont], TAM, stdin);
-        printf("Ingrese la fecha límite para la tarea asignada: \n");
+        printf("----------------------------------------------\n");
+        printf("Ingrese la fecha límite para la tarea asignada \n");
+        cont++;
         do
         {
             printf("Dia: ");
@@ -959,21 +960,26 @@ void ingresoDatosLis(char asig[][TAM], int dia[], int mes[], int year[], int can
             printf("Año: ");
             scanf("%d", &year[cont]);
         } while (year[cont] < 2021);
-    }
+        borrarConsola();
+        printf("¿Desea asignar otra tarea?\nDigite 1 si desea continuar\nDigite 0 si no desea continuar\nY/N: ");
+        scanf("%d", &Lis[cont]);
+    } while (Lis[cont] != 0);
     borrarConsola();
 }
-
-void impresionDatosLis(char asig[][TAM], int dia[], int mes[], int year[], int cantTarea)
+void impresionDatosLis(char asig[][TAM], int dia[], int mes[], int year[], int Lis[])
 {
-    printf("A continuacón tus tareas pendientes:\n ");
-    for (int cont = 0; cont < cantTarea; cont++)
+    borrarConsola();
+    int cont = 0;
+    printf("A continuación tus tareas pendeintes:\n ");
+    do
     {
+        cont++;
         printf("---------------------------\n");
-        printf(" Tarea N° %d\n", cont + 1);
-        printf("\t\t%s\n", asig[cont]);
+        printf(" Tarea N° %d\n", cont);
+        printf("\t\t%s\n", asig[cont - 1]);
         printf(" La cual vence el %d/%d/%d\n ", dia[cont], mes[cont], year[cont]);
         printf("---------------------------\n");
-    }
+    } while (Lis[cont] != 0);
 }
 
 //OPCIÓN 4 - HERRAMIENTAS
