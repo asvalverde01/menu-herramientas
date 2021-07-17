@@ -30,12 +30,12 @@ void convertirTemp(float);
 void convertirMasa(float);
 void convertirDistancia(float);
 
-void ingresoDatosLis(char[][tam], char[][tam], int[], int[], int[], int[]);
-void impresionDatosLis(char[][tam], char[][tam], int[], int[], int[], int[]);
-void consultaDatosLis(char[][tam], char[][tam], int[], int[], int[], int[]);
-void modificaDatosLis(char[][tam], char[][tam], int[], int[], int[], int[]);
-void guardaDatosLis(char[][tam], char[][tam], int[], int[], int[], int[]);
-void leeDatosGeneral();
+void ingresoDatosLis(char[][TAM], char[][TAM], int[], int[], int[], int[]);
+void impresionDatosLis(char[][TAM], char[][TAM], int[], int[], int[], int[]);
+void consultaDatosLis(char[][TAM], char[][TAM], int[], int[], int[], int[]);
+void modificaDatosLis(char[][TAM], char[][TAM], int[], int[], int[], int[]);
+void guardaDatosLis(char[][TAM], char[][TAM], int[], int[], int[], int[]);
+void leeDatosGeneral(char[][TAM], char[][TAM], int[], int[], int[], int[]);
 
 void temporizador(int, int, int);
 int modificarArchivo(char[15]);
@@ -54,12 +54,12 @@ int main(void)
     int op1 = 0, opM = 0, numInt[] = {0, 0, 0, 0, 0}, cantMatriz = 0;
     float numFloat[] = {0, 0, 0}, answ = 1;
     int matriz[3][10][10];
-    char asig[tam][tam];
-    char iden[tam][tam];
-    int dia[tam];
-    int mes[tam];
-    int year[tam];
-    int Lis[tam];
+    char asig[TAM][TAM];
+    char iden[TAM][TAM];
+    int dia[TAM];
+    int mes[TAM];
+    int year[TAM];
+    int Lis[TAM];
 
     //Loop principal
     do
@@ -354,7 +354,7 @@ int main(void)
 
                 case 6:
                     borrarConsola();
-                    leeDatosGeneral();
+                    leeDatosGeneral(asig, iden, dia, mes, year, Lis);
                     getchar();
                     getchar();
                     borrarConsola();
@@ -812,7 +812,7 @@ int calculadoraMatrices(int matriz[3][10][10])
             }
             else
             {
-                printf("Las matrices deben tener el mismo tamaño, la misma cantidad de columnas y de filas.");
+                printf("Las matrices deben tener el mismo TAMaño, la misma cantidad de columnas y de filas.");
             }
             break;
 
@@ -837,7 +837,7 @@ int calculadoraMatrices(int matriz[3][10][10])
             }
             else
             {
-                printf("Las matrices deben tener el mismo tamaño, la misma cantidad de columnas y de filas.");
+                printf("Las matrices deben tener el mismo TAMaño, la misma cantidad de columnas y de filas.");
             }
             break;
 
@@ -967,205 +967,19 @@ void convertirDistancia(float distancia)
 }
 
 //OPCIÓN 3 - LISTA DE TAREAS
-void ingresoDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[], int year[], int Lis[])
+void ingresoDatosLis(char asig[][TAM], char iden[][TAM], int dia[], int mes[], int year[], int Lis[])
 {
     int cont = 0;
     do
     {
-        void ingresoDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[], int year[], int Lis[])
-        {
-            int cont = 0;
-            do
-            {
-                borrarConsola();
-                printf("Ingrese las primeras tres letras de la materia de la asignación\n");
-                printf("-------------------------------------------------------------------------------------\n");
-                printf("(Por ejemplo MAT): ");
-                getchar();
-                fgets(iden[cont], tam, stdin);
-                printf("\nIngrese la asignación N°%d que desea enlistar: ", cont + 1);
-                fgets(asig[cont], tam, stdin);
-                printf("----------------------------------------------\n");
-                printf("Ingrese la fecha límite para la tarea asignada \n");
-                do
-                {
-                    printf("Dia: ");
-                    scanf("%d", &dia[cont]);
-                } while (dia[cont] > 31 || dia[cont] < 1);
-                do
-                {
-                    printf("Mes: ");
-                    scanf("%d", &mes[cont]);
-                } while (mes[cont] >= 13 || mes[cont] < 1);
-                do
-                {
-                    printf("Año: ");
-                    scanf("%d", &year[cont]);
-                } while (year[cont] < 2021);
-                borrarConsola();
-                cont++;
-                printf("¿Desea asignar otra tarea?\nDigite 1 si desea continuar\nDigite 0 si no desea continuar\nY/N: ");
-                scanf("%d", &Lis[cont]);
-            } while (Lis[cont] != 0);
-            guardaDatosLis(asig, iden, dia, mes, year, Lis);
-            borrarConsola();
-        }
-
-        void impresionDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[], int year[], int Lis[])
-        {
-            borrarConsola();
-            int cont = 0;
-            printf("A continuación tus tareas pendientes:\n ");
-            do
-            {
-                printf("----------------------------------------\n");
-                printf(" Tarea N° %d\n", cont + 1);
-                printf("----------------------------------------\n");
-                printf("\t%s\n", asig[cont]);
-                printf(" La cual vence el %d/%d/%d\n ", dia[cont], mes[cont], year[cont]);
-                printf("Indentificador de la asignación: %s ", iden[cont]);
-                printf("----------------------------------------\n");
-                cont++;
-            } while (Lis[cont] != 0);
-        }
-
-        void consultaDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[], int year[], int Lis[])
-        {
-            int cont = 0, bandera = 0;
-            char buscador[tam][tam];
-            getchar();
-            printf("Ingrese el identificador de la asignatura por buscar: ");
-            fgets(buscador[0], tam, stdin);
-            do
-            {
-                if (strcmp(iden[cont], buscador[0]) == 0)
-                {
-                    printf("----------------------------------------\n");
-                    printf(" Tarea\n");
-                    printf("----------------------------------------\n");
-                    printf("\t%s\n", asig[cont]);
-                    printf(" La cual vence el %d/%d/%d\n ", dia[cont], mes[cont], year[cont]);
-                    printf("Indentificador de la asignación: %s ", iden[cont]);
-                    printf("----------------------------------------\n");
-                    bandera = 1;
-                    break;
-                }
-                else
-                {
-                    bandera = 0;
-                }
-                cont++;
-            } while (Lis[cont] != 0);
-            if (bandera == 0)
-            {
-                printf("\n\nAsignación no encontrada...\n\n\n");
-            }
-            guardaDatosLis(asig, iden, dia, mes, year, Lis);
-        }
-
-        void modificaDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[], int year[], int Lis[])
-        {
-            int cont = 0, bandera = 0;
-            char buscador[tam][tam];
-            getchar();
-            printf("Ingrese el identificador de la asignatura por buscar: ");
-            fgets(buscador[0], tam, stdin);
-            do
-            {
-                if (strcmp(iden[cont], buscador[0]) == 0)
-                {
-                    printf("\n**Actual Asignación**\n");
-                    printf("----------------------------------------\n");
-                    printf(" Tarea\n");
-                    printf("----------------------------------------\n");
-                    printf("\t%s\n", asig[cont]);
-                    printf(" La cual vence el %d/%d/%d\n ", dia[cont], mes[cont], year[cont]);
-                    printf("Indentificador de la asignación: %s ", iden[cont]);
-                    printf("----------------------------------------------\n\n\n");
-                    printf("Ingrese la nueva asignación: ");
-                    fgets(asig[cont], tam, stdin);
-                    printf("----------------------------------------------\n");
-                    printf("Ingrese la nueva fecha límite para la tarea asignada \n");
-                    do
-                    {
-                        printf("Dia: ");
-                        scanf("%d", &dia[cont]);
-                    } while (dia[cont] > 31 || dia[cont] < 1);
-
-                    do
-                    {
-                        printf("Mes: ");
-                        scanf("%d", &mes[cont]);
-                    } while (mes[cont] >= 13 || mes[cont] < 1);
-
-                    do
-                    {
-                        printf("Año: ");
-                        scanf("%d", &year[cont]);
-                    } while (year[cont] < 2021);
-                    bandera = 1;
-                    break;
-                }
-                else
-                {
-                    bandera = 0;
-                }
-                cont++;
-            } while (Lis[cont] != 0);
-            if (bandera == 0)
-            {
-                printf("\n\nAsignación no encontrada...\n\n\n");
-            }
-        }
-
-        void guardaDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[], int year[], int Lis[])
-        {
-            int cont = 0;
-            FILE *archivo;
-            archivo = fopen("ListaDeTareas.txt", "w");
-            do
-            {
-                fprintf(archivo, "----------------------------------------\n");
-                fprintf(archivo, " Tarea N° %d\n", cont + 1);
-                fprintf(archivo, "----------------------------------------\n");
-                fprintf(archivo, "\t%s\n", asig[cont]);
-                fprintf(archivo, " La cual vence el %d/%d/%d\n ", dia[cont], mes[cont], year[cont]);
-                fprintf(archivo, "Indentificador de la asignación: %s ", iden[cont]);
-                fprintf(archivo, "----------------------------------------\n");
-                cont++;
-            } while (Lis[cont] != 0);
-            fclose(archivo);
-        }
-
-        void leeDatosGeneral()
-        {
-            FILE *archivo;
-            char c;
-            archivo = fopen("ListaDeTareas.txt", "r");
-            if (archivo != NULL)
-            {
-                printf("\nContenido del Archivo\n");
-                while (1)
-                {
-                    c = fgetc(archivo);
-                    if (feof(archivo))
-                        break;
-                    printf("%c", c);
-                }
-            }
-            else
-            {
-                printf("\nHubo un Error al Abrir el Archivo o no existe.\n");
-            }
-            fclose(archivo);
-        }
+        borrarConsola();
         printf("Ingrese las primeras tres letras de la materia de la asignación\n");
         printf("-------------------------------------------------------------------------------------\n");
         printf("(Por ejemplo MAT): ");
         getchar();
-        fgets(iden[cont], tam, stdin);
+        fgets(iden[cont], TAM, stdin);
         printf("\nIngrese la asignación N°%d que desea enlistar: ", cont + 1);
-        fgets(asig[cont], tam, stdin);
+        fgets(asig[cont], TAM, stdin);
         printf("----------------------------------------------\n");
         printf("Ingrese la fecha límite para la tarea asignada \n");
         do
@@ -1192,7 +1006,7 @@ void ingresoDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[], i
     borrarConsola();
 }
 
-void impresionDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[], int year[], int Lis[])
+void impresionDatosLis(char asig[][TAM], char iden[][TAM], int dia[], int mes[], int year[], int Lis[])
 {
     borrarConsola();
     int cont = 0;
@@ -1210,13 +1024,13 @@ void impresionDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[],
     } while (Lis[cont] != 0);
 }
 
-void consultaDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[], int year[], int Lis[])
+void consultaDatosLis(char asig[][TAM], char iden[][TAM], int dia[], int mes[], int year[], int Lis[])
 {
     int cont = 0, bandera = 0;
-    char buscador[tam][tam];
+    char buscador[TAM][TAM];
     getchar();
     printf("Ingrese el identificador de la asignatura por buscar: ");
-    fgets(buscador[0], tam, stdin);
+    fgets(buscador[0], TAM, stdin);
     do
     {
         if (strcmp(iden[cont], buscador[0]) == 0)
@@ -1244,13 +1058,13 @@ void consultaDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[], 
     guardaDatosLis(asig, iden, dia, mes, year, Lis);
 }
 
-void modificaDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[], int year[], int Lis[])
+void modificaDatosLis(char asig[][TAM], char iden[][TAM], int dia[], int mes[], int year[], int Lis[])
 {
     int cont = 0, bandera = 0;
-    char buscador[tam][tam];
+    char buscador[TAM][TAM];
     getchar();
     printf("Ingrese el identificador de la asignatura por buscar: ");
-    fgets(buscador[0], tam, stdin);
+    fgets(buscador[0], TAM, stdin);
     do
     {
         if (strcmp(iden[cont], buscador[0]) == 0)
@@ -1264,7 +1078,7 @@ void modificaDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[], 
             printf("Indentificador de la asignación: %s ", iden[cont]);
             printf("----------------------------------------------\n\n\n");
             printf("Ingrese la nueva asignación: ");
-            fgets(asig[cont], tam, stdin);
+            fgets(asig[cont], TAM, stdin);
             printf("----------------------------------------------\n");
             printf("Ingrese la nueva fecha límite para la tarea asignada \n");
             do
@@ -1299,7 +1113,7 @@ void modificaDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[], 
     }
 }
 
-void guardaDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[], int year[], int Lis[])
+void guardaDatosLis(char asig[][TAM], char iden[][TAM], int dia[], int mes[], int year[], int Lis[])
 {
     int cont = 0;
     FILE *archivo;
@@ -1318,9 +1132,10 @@ void guardaDatosLis(char asig[][tam], char iden[][tam], int dia[], int mes[], in
     fclose(archivo);
 }
 
-void leeDatosGeneral()
+void leeDatosGeneral(char asig[][TAM], char iden[][TAM], int dia[], int mes[], int year[], int Lis[])
 {
     FILE *archivo;
+    int cont = 0;
     char c;
     archivo = fopen("ListaDeTareas.txt", "r");
     if (archivo != NULL)
@@ -1339,6 +1154,38 @@ void leeDatosGeneral()
         printf("\nHubo un Error al Abrir el Archivo o no existe.\n");
     }
     fclose(archivo);
+
+    printf("Ingrese las primeras tres letras de la materia de la asignación\n");
+    printf("-------------------------------------------------------------------------------------\n");
+    printf("(Por ejemplo MAT): ");
+    getchar();
+    fgets(iden[cont], TAM, stdin);
+    printf("\nIngrese la asignación N°%d que desea enlistar: ", cont + 1);
+    fgets(asig[cont], TAM, stdin);
+    printf("----------------------------------------------\n");
+    printf("Ingrese la fecha límite para la tarea asignada \n");
+
+    do
+    {
+        printf("Dia: ");
+        scanf("%d", &dia[cont]);
+    } while (dia[cont] > 31 || dia[cont] < 1);
+
+    do
+    {
+        printf("Mes: ");
+        scanf("%d", &mes[cont]);
+    } while (mes[cont] >= 13 || mes[cont] < 1);
+
+    do
+    {
+        printf("Año: ");
+        scanf("%d", &year[cont]);
+    } while (year[cont] < 2021);
+    borrarConsola();
+    cont++;
+    printf("¿Desea asignar otra tarea?\nDigite 1 si desea continuar\nDigite 0 si no desea continuar\nY/N: ");
+    scanf("%d", &Lis[cont]);
 }
 
 //OPCIÓN 4 - HERRAMIENTAS
@@ -1471,7 +1318,7 @@ void encriptarContra(char contra[], char clave[])
 {
     for (int i = 0, j = strlen(contra); i < j; i++)
     {
-        contra[i] + 1;
+        contra[i] += 1;
     }
 }
 
