@@ -312,7 +312,7 @@ int main(void)
                 printf("----------------\n");
                 printf("LISTA DE TAREAS\n");
                 printf("----------------\n");
-                printf("1.Asignar una tarea\n2.Revisar las tareas pendientes\n3.Consultar una tarea específica\n4.Modifica una asignación\n5.Marcar tarea como finalizada\n6.Leer Datos\n7.Regresar\n");
+                printf("1.Asignar una tarea\n2.Revisar las tareas pendientes\n3.Consultar una tarea específica\n4.Modifica una asignación\n5.Leer Datos\n6.Regresar\n");
                 printf("Escoja una opción: ");
                 scanf("%d", &opLis);
                 switch (opLis)
@@ -348,10 +348,6 @@ int main(void)
 
                 case 5:
                     borrarConsola();
-                    break;
-
-                case 6:
-                    borrarConsola();
                     leeDatosGeneral(asig, iden, dia, mes, year, Lis);
                     getchar();
                     getchar();
@@ -362,7 +358,7 @@ int main(void)
                     borrarConsola();
                     break;
                 }
-            } while (opLis != 7);
+            } while (opLis != 6);
             break;
 
         case 4: //------------------------------------------------------------------------------------------.
