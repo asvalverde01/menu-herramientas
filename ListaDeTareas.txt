@@ -1,8 +1,32 @@
 ----------------------------------------
  Tarea N° 1
 ----------------------------------------
-	Tarea
+	Lenguage
 
- La cual vence el 15/2/2021
- Indentificador de la asignación: LNG
+ La cual vence el 30/12/2021
+ Indentificador de la asignación: MAT
+ ----------------------------------------
+----------------------------------------
+ Tarea N° 1
+----------------------------------------
+	Taller
+
+ La cual vence el 12/3/2021
+ Indentificador de la asignación: LAN
+ ----------------------------------------
+----------------------------------------
+ Tarea N° 1
+----------------------------------------
+	taller de progreso
+
+ La cual vence el 12/2/2021
+ Indentificador de la asignación: MAT
+ ----------------------------------------
+----------------------------------------
+ Tarea N° 1
+----------------------------------------
+	Taller
+
+ La cual vence el 1/2/2021
+ Indentificador de la asignación: MAT
  ----------------------------------------

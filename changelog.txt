@@ -14,6 +14,3 @@ alealtorias.
 - Se agregó la función que permite imprimir la informacion de un archivo
 
 TODO
-
-- Administrator de contraseñas
-- Encriptar contraseñas

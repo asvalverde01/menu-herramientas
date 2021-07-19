@@ -362,7 +362,7 @@ int main(void)
                     borrarConsola();
                     break;
                 }
-            } while (opLis != 6);
+            } while (opLis != 7);
             break;
 
         case 4: //------------------------------------------------------------------------------------------.
@@ -537,7 +537,7 @@ int main(void)
                             do
                             {
                                 printf("Ingrese la langitud para la contraseña\n");
-                                numInt[0] = enteroPositivo();
+                                scanf("%d", &numInt[0]);
 
                                 if (numInt[0] > 20)
                                 {
@@ -996,8 +996,15 @@ void ingresoDatosLis(char asig[][TAM], char iden[][TAM], int dia[], int mes[], i
         } while (year[cont] < 2021);
         borrarConsola();
         cont++;
-        printf("¿Desea asignar otra tarea?\nDigite 1 si desea continuar\nDigite 0 si no desea continuar\nY/N: ");
-        scanf("%d", &Lis[cont]);
+        do
+        {
+            printf("¿Desea asignar otra tarea?\nDigite 1 si desea continuar\nDigite 0 si no desea continuar\nY/N: ");
+            Lis[cont] = enteroPositivo();
+            borrarConsola();
+            if (Lis[cont] < 0 || Lis[cont] > 2)
+                printf("ERROR! Opción no existe\n");
+        } while (Lis[cont] < 0 || Lis[cont] > 2);
+
     } while (Lis[cont] != 0);
     guardaDatosLis(asig, iden, dia, mes, year, Lis);
     borrarConsola();
@@ -1114,7 +1121,7 @@ void guardaDatosLis(char asig[][TAM], char iden[][TAM], int dia[], int mes[], in
 {
     int cont = 0;
     FILE *archivo;
-    archivo = fopen("ListaDeTareas.txt", "w");
+    archivo = fopen("ListaDeTareas.txt", "a");
     do
     {
         fprintf(archivo, "----------------------------------------\n");
@@ -1151,38 +1158,6 @@ void leeDatosGeneral(char asig[][TAM], char iden[][TAM], int dia[], int mes[], i
         printf("\nHubo un Error al Abrir el Archivo o no existe.\n");
     }
     fclose(archivo);
-
-    printf("Ingrese las primeras tres letras de la materia de la asignación\n");
-    printf("-------------------------------------------------------------------------------------\n");
-    printf("(Por ejemplo MAT): ");
-    getchar();
-    fgets(iden[cont], TAM, stdin);
-    printf("\nIngrese la asignación N°%d que desea enlistar: ", cont + 1);
-    fgets(asig[cont], TAM, stdin);
-    printf("----------------------------------------------\n");
-    printf("Ingrese la fecha límite para la tarea asignada \n");
-
-    do
-    {
-        printf("Dia: ");
-        scanf("%d", &dia[cont]);
-    } while (dia[cont] > 31 || dia[cont] < 1);
-
-    do
-    {
-        printf("Mes: ");
-        scanf("%d", &mes[cont]);
-    } while (mes[cont] >= 13 || mes[cont] < 1);
-
-    do
-    {
-        printf("Año: ");
-        scanf("%d", &year[cont]);
-    } while (year[cont] < 2021);
-    borrarConsola();
-    cont++;
-    printf("¿Desea asignar otra tarea?\nDigite 1 si desea continuar\nDigite 0 si no desea continuar\nY/N: ");
-    scanf("%d", &Lis[cont]);
 }
 
 //OPCIÓN 4 - HERRAMIENTAS
@@ -1381,23 +1356,16 @@ int mostrarRegistros()
 //Esta función regresa un número positivo
 int enteroPositivo(void)
 {
-    //variables locales
-    float num; //flotante para evitar problemas en el programa
-    int n = 0;
+    char n;
+    int num = 0;
     do
     {
-        printf("--> ");
-        scanf("%f", &num); //Recibe un número para evaluar
-        if (num < 1)       //En caso de ingresar un número menor que 1
-        {
-            printf("No se permiten números negativos o 0 \n");
-            scanf("%f", &num);
-        }
-    } while (num < 1); //Repite mientras el número sea menor que 1
-
-    num = round(num); //Redondea el número a su entero más cercano
-    n = num;          //Convierte el número flotante en entero
-    return n;
+        //Se recibe imput como caracter para validar
+        printf("> ");
+        scanf("%c", &n);
+    } while (num < 0 || isdigit(n) == 0);
+    num = n - '0'; //Convierte caracter en int
+    return num;
 }
 //Esta función borra el contenido de la consola
 void borrarConsola(void)
@@ -1416,7 +1384,7 @@ int info()
     {
         do
         {
-            printf("1. Acerca de\n2. Contactos\n3. Regresar");
+            printf("1. Acerca de\n2. Contactos\n3. Regresar\n\n");
             op = enteroPositivo();
         } while (op < 1 || op > 3);
 
