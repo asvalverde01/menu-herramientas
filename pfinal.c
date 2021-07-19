@@ -42,8 +42,9 @@ int modificarArchivo(char[15]);
 int leerArchivo(char[15]);
 
 void genContra(int, char[21]);
-int guardarContra(char[], char[], char[]); //En desarollo
-void encriptarContra(char[], char[]);      //En desarollo
+int guardarContra(char[], char[], char[]);
+void encriptarContra(char[], char[]);
+int mostrarRegistros();
 
 //FUNCIÓN PRINCIPAL -----------------------------------------------------------------.
 int main(void)
@@ -85,7 +86,6 @@ int main(void)
                     {
                         numFloat[0] = 0;
                         numFloat[1] = 0;
-
                         do
                         {
                             printf("\n1. Sumar\n2. Restar\n3. Multiplicar\n4. Dividir\n");
@@ -604,7 +604,7 @@ int main(void)
                     do
                     {
                         numFloat[0] = 0;
-                        printf("1. Ingresar un valor\n2. Regresar\n");
+                        printf("1. Mostrar registros\n2. Regresar\n");
                         do
                         {
                             opM = enteroPositivo(); //Recibe una opción
@@ -616,9 +616,8 @@ int main(void)
 
                         if (opM != 2)
                         {
-                            printf("Ingrese el valor ");
-                            scanf("%f", &numFloat[0]);
                             borrarConsola();
+                            mostrarRegistros();
                             //Invoca a la función que
                             //TODO
                         }
@@ -666,7 +665,7 @@ int main(void)
 //FUNCIONES SECUNDARIAS -------------------------------------------------------------.
 int menu(void)
 {
-    float nop;
+    int nop;
     printf("------------- STUDENT TOOLS -------------\n");
     printf("-----------------------------------------\n");
     printf("---DEL SIGUIENTE MENÚ ELIJA UNA OPCIÓN---\n\n");
@@ -674,11 +673,10 @@ int menu(void)
     printf("6. AYUDA / ACERCA DE\n7. BORRAR LA CONSOLA\n8. SALIR / TERMINAR\n");
     printf("\n");
     printf("|---Opción(1-8)---> ");
-    scanf("%f", &nop);
+    nop = enteroPositivo();
     //Previene un error en caso de ingresar un valor decimal
-    int op = nop;
-    ///Regresa el valor entero de la selección
-    return op;
+
+    return nop;
 }
 
 //OPCIÓN 1 - CALCULADORAS
@@ -923,7 +921,7 @@ void convertirTemp(float temp)
     tempConvertida = (temp - 32) * 0.55;
     printf("%.1f fahrenheit a celsius ---> %.2f\n", temp, tempConvertida);
     tempConvertida = temp + 273.15;
-    printf("%.1f celsius a Kelvin ---> %.2f\n", temp, tempConvertida);
+    printf("%.1f celsius a Kelvin ---> %.2f\n\n", temp, tempConvertida);
 }
 
 void convertirMasa(float masa)
@@ -1324,22 +1322,59 @@ void encriptarContra(char contra[], char clave[])
 
 int guardarContra(char contra[], char cuenta[], char sitio[])
 {
-    char clave[20];
-    printf("------------------------------------------------------\n");
-    printf("Ingrese una clave para encriptar la contraseña,\n ");
-    printf("esta debe ser una palabra que recuerde para poder ver\n");
-    printf("las contraseñas en un futuro.\n");
-    printf("------------------------------------------------------\n");
-    printf("\nClave maestra: \n");
-    scanf("%s", clave); //Lee un string en el arreglo clave
+    //Crea / abre un archivo con el parametro recibido
+    FILE *file = fopen("registros.txt", "a");
+    //En caso de error
+    if (file == NULL)
+    {
+        //Imprime el error que se ha generado
+        perror("Error al modificar el documento: ");
+        return 1; //Termina la función
+    }
+    else
+    {
+        fprintf(file, "---------------------------------\n");
+        fprintf(file, "Sitio: %s\n", sitio);
+        fprintf(file, "cuenta: %s\n", cuenta);
+        fprintf(file, "contraseña: %s\n", contra);
+        fprintf(file, "--------------------------------\n");
+
+        borrarConsola();
+        printf("Archivo modificado con éxito\n");
+        //Cierra el archivo que se ha creado
+        fclose(file);
+        return 0;
+    }
     borrarConsola();
     printf("Se ha guardado la clave para el sitio %s\n\n", sitio);
-    printf("Contra %s clave %s\n", contra, clave);
 
     //Se invoca al algoritmo que encripta la contraseña usando una clave
-    encriptarContra(contra, clave);
+    return 0;
+}
 
-    printf("Contra encriptada %s \n", contra);
+int mostrarRegistros()
+{
+    //Lee un archivo con el parametro recibido
+    FILE *file = fopen("registros.txt", "r");
+    //En caso de error
+    if (file == NULL)
+    {
+        //Imprime el error que se ha generado
+        perror("Error al abrir el documento: ");
+        return 1; //Termina la función
+    }
+    else
+    {
+        char ch;
+        borrarConsola();
+        printf("Archivo encontrado, mostrando contenido a continuación:\n\n");
+        //Lee e imprime el contenido hasta encontrar el final del texto
+        while ((ch = fgetc(file)) != EOF)
+        {
+            printf("%c", ch); //Imprime caracte por caracter
+        }
+        printf("\n");
+    }
     return 0;
 }
 //OPCIÓN 6 -
@@ -1354,10 +1389,10 @@ int enteroPositivo(void)
     {
         printf("--> ");
         scanf("%f", &num); //Recibe un número para evaluar
-
-        if (num < 1) //En caso de ingresar un número menor que 1
+        if (num < 1)       //En caso de ingresar un número menor que 1
         {
             printf("No se permiten números negativos o 0 \n");
+            scanf("%f", &num);
         }
     } while (num < 1); //Repite mientras el número sea menor que 1
 
