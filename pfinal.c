@@ -46,6 +46,8 @@ int guardarContra(char[], char[], char[]);
 void encriptarContra(char[], char[]);
 int mostrarRegistros();
 
+int info();
+
 //FUNCIÓN PRINCIPAL -----------------------------------------------------------------.
 int main(void)
 {
@@ -55,12 +57,8 @@ int main(void)
     int op1 = 0, opM = 0, numInt[] = {0, 0, 0, 0, 0}, cantMatriz = 0;
     float numFloat[] = {0, 0, 0}, answ = 1;
     int matriz[3][10][10];
-    char asig[TAM][TAM];
-    char iden[TAM][TAM];
-    int dia[TAM];
-    int mes[TAM];
-    int year[TAM];
-    int Lis[TAM];
+    char asig[TAM][TAM], iden[TAM][TAM];
+    int dia[TAM], mes[TAM], year[TAM], Lis[TAM];
 
     //Loop principal
     do
@@ -641,7 +639,8 @@ int main(void)
         case 6: //------------------------------------------------------------------------------------------.
             borrarConsola();
             printf("------------------------------\n");
-            printf("SECCIÓN DE AYUDA E INFORMACIÓN\n------------------------------\n");
+            printf("SECCIÓN DE INFORMACIÓN\n------------------------------\n");
+            info();
             break;
 
         case 7:              //------------------------------------------------------------------------------------------.
@@ -670,7 +669,7 @@ int menu(void)
     printf("-----------------------------------------\n");
     printf("---DEL SIGUIENTE MENÚ ELIJA UNA OPCIÓN---\n\n");
     printf("1. CALCULADORAS\n2. CONVERTIDORES\n3. LISTA DE TAREAS\n4. HERRAMIENTAS\n5. CONTRASEÑAS\n");
-    printf("6. AYUDA / ACERCA DE\n7. BORRAR LA CONSOLA\n8. SALIR / TERMINAR\n");
+    printf("6. INFORMACIÓN / ACERCA DE\n7. BORRAR LA CONSOLA\n8. SALIR / TERMINAR\n");
     printf("\n");
     printf("|---Opción(1-8)---> ");
     nop = enteroPositivo();
@@ -1408,4 +1407,40 @@ void borrarConsola(void)
 #else
     system("clear"); //En caso de usar otro sistema operativo
 #endif
+}
+
+int info()
+{
+    int op;
+    do
+    {
+        do
+        {
+            printf("1. Acerca de\n2. Contactos\n3. Regresar");
+            op = enteroPositivo();
+        } while (op < 1 || op > 3);
+
+        switch (op)
+        {
+        case 1:
+            borrarConsola();
+            printf("Este programa ha sido diseñado para brindar herramientas\n"
+                   "de acceso gratuito y fácil uso a estudiantes como parte del\n"
+                   "proyecto final para la materia de programación de la carrera de\n"
+                   "Ingeniería de Sofware\n\n");
+            break;
+        case 2:
+            borrarConsola();
+            printf("Alberto Sebastián Valverde González - sebastian.valverde@udla.edu.ec\n"
+                   "Mateo Nicolás Velásquez Gallardo - mateo.velasquez@udla.edu.ec\n"
+                   "\nIng. Software, UDLA\nQuito, Ecuador\n\n");
+            break;
+
+        case 3:
+            borrarConsola();
+            return 0;
+            break;
+        }
+    } while (op != 3);
+    return 0;
 }
